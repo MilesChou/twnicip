@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
+namespace MilesChou\TwnicIp;
 
-namespace MilesChou\Template;
-
-class Sample
+class TwnicIp
 {
     public function alwaysTrue(): bool
     {
