@@ -14,8 +14,12 @@
         "php": "^7.1 | ^8"
     },
     "require-dev": {
+        "guzzlehttp/guzzle": "^6.5",
         "phpunit/phpunit": "^7.5 | ^8.5 | ^9.3",
-        "squizlabs/php_codesniffer": "^3.6"
+        "squizlabs/php_codesniffer": "^3.6",
+        "symfony/console": "^4 | ^5",
+        "symfony/css-selector": "^4 |^5",
+        "symfony/dom-crawler": "^4 | ^5"
     },
     "autoload": {
         "psr-4": {
@@ -24,11 +28,14 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "App\\": "app/",
             "Tests\\": "tests"
         }
     },
     "config": {
         "preferred-install": "dist",
-        "sort-packages": true
-    }
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "prefer-stable": true
 }

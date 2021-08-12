@@ -4,8 +4,18 @@ namespace MilesChou\TwnicIp;
 
 class TwnicIp
 {
-    public function alwaysTrue(): bool
+    use Database;
+
+    public static function isTaiwan(string $ip): bool
     {
-        return true;
+        $ipLong = ip2long($ip);
+
+        foreach (self::$raw as [$start, $end]) {
+            if ($ipLong >= $start && $ipLong <= $end) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

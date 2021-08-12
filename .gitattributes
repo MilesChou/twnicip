@@ -2,6 +2,9 @@
 * text=lf
 
 # Exclude unused files
+/.github export-ignore
+/app export-ignore
+/bin export-ignore
 /tests export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
@@ -9,4 +12,3 @@
 /Makefile export-ignore
 /phpcs.xml export-ignore
 /phpunit.xml.dist export-ignore
-/README.md export-ignore
