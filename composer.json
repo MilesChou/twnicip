@@ -1,0 +1,39 @@
+{
+    "name": "mileschou/composer-template",
+    "description": "The template for create Composer project",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "template"
+    ],
+    "authors": [
+        {
+            "name": "MilesChou",
+            "email": "jangconan@gmail.com",
+            "role": "Maintainer"
+        }
+    ],
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "codedungeon/phpunit-result-printer": "^0.29.3",
+        "phpstan/phpstan": "^0.12",
+        "phpunit/phpunit": "^7.5 | ^8.5 | ^9.3",
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "MilesChou\\Template\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}
