@@ -38,7 +38,7 @@ class Database
 %s
     ];
 
-    public static function all()
+    public static function all(): array
     {
         return static::$raw;
     }

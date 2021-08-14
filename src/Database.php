@@ -193,7 +193,7 @@ class Database
         ['1038352384', '1038614527', '61.228.0.0', '61.231.255.255', '中華電信數據分公司(HiNet)'],
     ];
 
-    public static function all()
+    public static function all(): array
     {
         return static::$raw;
     }
