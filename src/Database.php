@@ -7,8 +7,10 @@ namespace MilesChou\TwnicIp;
  *
  * PLEASE DO NOT EDIT IT DIRECTLY.
  */
-trait Database
+class Database
 {
+    public const UPDATED_AT = '2021-08-14 08:18:21';
+
     /**
      * @array
      */
@@ -190,4 +192,9 @@ trait Database
         ['1037828096', '1038352383', '61.220.0.0', '61.227.255.255', '中華電信數據分公司(HiNet)'],
         ['1038352384', '1038614527', '61.228.0.0', '61.231.255.255', '中華電信數據分公司(HiNet)'],
     ];
+
+    public static function all()
+    {
+        return static::$raw;
+    }
 }

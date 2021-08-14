@@ -2,9 +2,9 @@
 
 namespace App\Commands;
 
+use DateTime;
 use GuzzleHttp\Client;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler;
@@ -24,14 +24,21 @@ namespace MilesChou\TwnicIp;
  *
  * PLEASE DO NOT EDIT IT DIRECTLY.
  */
-trait Database
+class Database
 {
+    public const UPDATED_AT = '%s';
+
     /**
      * @array
      */
     private static $raw = [
 %s
     ];
+
+    public static function all()
+    {
+        return static::$raw;
+    }
 }
 
 EOF;
@@ -59,8 +66,8 @@ EOF;
         );
 
         $ips = $crawler->filter(
-            'body > table > tr:nth-of-type(4) > td:nth-of-type(2) > table > tr > td:nth-of-type(3)
-        ');
+            'body > table > tr:nth-of-type(4) > td:nth-of-type(2) > table > tr > td:nth-of-type(3)'
+        );
 
         $data = [];
 
@@ -70,16 +77,23 @@ EOF;
                 continue;
             }
 
+            // Title 有的會有換行或奇怪的空白字元，全部移除，IP 欄也做一樣的事
             $title = str_replace(["\r", "\n", " "], '', trim($node->textContent));
-            [$start, $end] = explode('-', str_replace('–', '-', $ips->getNode($key)->textContent));
+            $range = str_replace(["\r", "\n", " "], '', $ips->getNode($key)->textContent);
 
-            $start = str_replace(["\r", "\n", " "], '', trim($start));
-            $end = str_replace(["\r", "\n", " "], '', trim($end));
+            // IP 的連字號有的用不一樣的符號，把它 replace 成一樣的
+            $range = str_replace('–', '-', $range);
+
+            [$start, $end] = explode('-', $range);
+
+            $start = trim($start);
+            $end = trim($end);
 
             $startLong = ip2long($start);
             $endLong = ip2long($end);
 
             $data[] = [$startLong, $endLong, $start, $end, $title];
+
         }
 
         $this->generateCode($data);
@@ -104,7 +118,11 @@ EOF;
             $templateCode .= $code . PHP_EOL;
         }
 
-        $newContent = sprintf($this->template, rtrim($templateCode));
+        $newContent = sprintf(
+            $this->template,
+            (new DateTime())->format('Y-m-d H:i:s'),
+            rtrim($templateCode)
+        );
 
         file_put_contents(__DIR__ . '/../../src/Database.php', $newContent);
     }
