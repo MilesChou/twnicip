@@ -15,6 +15,11 @@ class TwnicIp
     private $exclude = [];
 
     /**
+     * @var bool
+     */
+    private $withoutDatabase;
+
+    /**
      * Build ip range data by IP
      */
     public static function buildRangeByIp(string $start, string $end, string $title): array
@@ -41,6 +46,11 @@ class TwnicIp
         return false;
     }
 
+    public function __construct(bool $withoutDatabase = false)
+    {
+        $this->withoutDatabase = $withoutDatabase;
+    }
+
     /**
      * Alias for isTaiwanByIp() method
      */
@@ -59,7 +69,7 @@ class TwnicIp
         $result = false;
 
         // Check default database from https://www.twnic.tw
-        if (self::findInRange($ip, Database::all())) {
+        if (!$this->withoutDatabase && self::findInRange($ip, Database::all())) {
             $result = true;
         }
 

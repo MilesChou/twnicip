@@ -20,6 +20,16 @@ class TwnicIpTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturnFalseWhenWithoutDatabase(): void
+    {
+        $target = new TwnicIp(true);
+
+        $this->assertFalse($target->isTaiwan('202.39.145.2'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldReturnTrueWhenTaiwanIp(): void
     {
         // ['3391586304', '3391619071', '202.39.128.0', '202.39.255.255', '中華電信數據分公司(HiNet)'],
