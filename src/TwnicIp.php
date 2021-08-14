@@ -30,6 +30,17 @@ class TwnicIp
         return [$start, $end, long2ip($start), long2ip($end), $title];
     }
 
+    public static function findInRange(int $ip, iterable $range): bool
+    {
+        foreach ($range as [$start, $end]) {
+            if ($ip >= $start && $ip <= $end) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Alias for isTaiwanByIp() method
      */
@@ -48,27 +59,18 @@ class TwnicIp
         $result = false;
 
         // Check default database from https://www.twnic.tw
-        foreach (Database::all() as [$start, $end]) {
-            if ($ip >= $start && $ip <= $end) {
-                $result = true;
-                break;
-            }
+        if (self::findInRange($ip, Database::all())) {
+            $result = true;
         }
 
         // Check list to include
-        foreach ($this->include as [$start, $end]) {
-            if ($ip >= $start && $ip <= $end) {
-                $result = true;
-                break;
-            }
+        if (self::findInRange($ip, $this->include)) {
+            $result = true;
         }
 
         // Check list to exclude
-        foreach ($this->exclude as [$start, $end]) {
-            if ($ip >= $start && $ip <= $end) {
-                $result = false;
-                break;
-            }
+        if (self::findInRange($ip, $this->exclude)) {
+            $result = false;
         }
 
         return $result;
