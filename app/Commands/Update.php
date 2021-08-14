@@ -3,11 +3,12 @@
 namespace App\Commands;
 
 use DateTime;
-use GuzzleHttp\Client;
+use MilesChou\TwnicIp\TwnicIp;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * @see https://www.twnic.tw/download/IP/main_f3.htm
@@ -54,54 +55,60 @@ EOF;
     protected function configure()
     {
         $this->setName('update')
-            ->setDescription('Update IP database');
+            ->setDescription('Update IP database')
+            ->addArgument('csv', InputArgument::OPTIONAL, 'CSV from IPLOCATION-LITE', 'IP2LOCATION-LITE-DB11.CSV');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client = new Client();
-        $response = $client->get('https://www.twnic.tw/download/IP/main_f3.htm');
-
-        $crawler = new Crawler((string)$response->getBody());
-
-        $title = $crawler->filter(
-            'body > table > tr:nth-of-type(4) > td:nth-of-type(2) > table > tr > td:nth-of-type(1)'
-        );
-
-        $ips = $crawler->filter(
-            'body > table > tr:nth-of-type(4) > td:nth-of-type(2) > table > tr > td:nth-of-type(3)'
-        );
+        $csv = $this->getGenerator($input->getArgument('csv'));
 
         $data = [];
 
-        foreach ($title as $key => $node) {
-            // Header
-            if (0 === $key) {
+        foreach ($csv as $key => $item) {
+            if ($output->isDebug()) {
+                $output->writeln('Key: ' . $key . ' Item: ' . implode(',', $item));
+            }
+
+            $stageCheck = ($key + 1) % 100000 === 0;
+
+            if ($stageCheck && $output->isVerbose()) {
+                $output->writeln('Finish ' . ($key + 1) . ' row');
+            }
+
+            if ('TW' !== $item[2]) {
                 continue;
             }
 
-            // Title 有的會有換行或奇怪的空白字元，全部移除，IP 欄也做一樣的事
-            $title = str_replace(["\r", "\n", " "], '', trim($node->textContent));
-            $range = str_replace(["\r", "\n", " "], '', $ips->getNode($key)->textContent);
+            $startLong = (int)$item[0];
+            $endLong = (int)$item[1];
 
-            // IP 的連字號有的用不一樣的符號，把它 replace 成一樣的
-            $range = str_replace('–', '-', $range);
+            $arr = TwnicIp::buildRangeByLong($startLong, $endLong, $item[5]);
+            $data[] = $arr;
 
-            [$start, $end] = explode('-', $range);
-
-            $start = trim($start);
-            $end = trim($end);
-
-            $startLong = ip2long($start);
-            $endLong = ip2long($end);
-
-            $data[] = [$startLong, $endLong, $start, $end, $title];
-
+            if ($output->isVeryVerbose()) {
+                $output->writeln(
+                    'Data: ' . implode(',', $arr) . ' Memory usage: ' . memory_get_usage()
+                );
+            }
         }
 
         $this->generateCode($data);
 
         return 0;
+    }
+
+    private function getGenerator(string $file): iterable
+    {
+        if (($handle = fopen($file, 'r')) === false) {
+            throw new RuntimeException('Cannot load file: ' . $file);
+        }
+
+        while (($line = fgetcsv($handle)) !== false) {
+            yield $line;
+        }
+
+        fclose($handle);
     }
 
     private function generateCode(array $data): void

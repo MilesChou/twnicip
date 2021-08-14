@@ -45,3 +45,6 @@ Desktop.ini
 # Artifacts files
 /build
 /twnic.csv
+
+# IP2LOCATION File
+IP2LOCATION-LITE*
