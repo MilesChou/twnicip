@@ -36,6 +36,11 @@ $twnicIp->excludeRange('127.0.0.1', '127.0.0.1');
 $twnicIp->isTaiwan('127.0.0.1'); // return false
 ```
 
+## References
+
+* [Twnic IP 列表](https://www.twnic.tw/download/IP/main_f3.htm) - 但此文件看起來已過時，因此改採用其他資料庫
+* [IP2LOCATION Lite](https://lite.ip2location.com/) - 免費且完整的資料庫，目前是使用這個
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
