@@ -111,7 +111,6 @@ class TwnicIpTest extends TestCase
         $this->assertFalse($this->target->isTaiwanByLong(3391586307));
     }
 
-
     /**
      * @test
      */
