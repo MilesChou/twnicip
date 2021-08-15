@@ -14,10 +14,13 @@ clean-all: clean
 	rm -rf ./composer.lock
 
 check:
-	php vendor/bin/phpcs
+	php -dmemory_limit=-1 vendor/bin/phpcs
 
 test: clean check
-	phpdbg -qrr vendor/bin/phpunit
+	php -dmemory_limit=-1 -dxdebug.mode=coverage vendor/bin/phpunit --coverage-text
+
+bench:
+	php vendor/bin/phpbench run tests/Benchmark --report=default
 
 coverage: test
 	@if [ "`uname`" = "Darwin" ]; then open build/coverage/index.html; fi
