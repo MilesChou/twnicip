@@ -3,10 +3,22 @@
 ![tests](https://github.com/MilesChou/twnicip/workflows/tests/badge.svg)
 [![codecov](https://codecov.io/gh/MilesChou/twnicip/branch/master/graph/badge.svg?token=OPzYQj42bQ)](https://codecov.io/gh/MilesChou/twnicip)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/4f82ecb7dd12478cba9b51c8bb26d74e)](https://www.codacy.com/gh/MilesChou/twnicip/dashboard)
+[![Latest Stable Version](https://poser.pugx.org/MilesChou/twnicip/v/stable)](https://packagist.org/packages/MilesChou/twnicip)
+[![Total Downloads](https://poser.pugx.org/MilesChou/twnicip/d/total.svg)](https://packagist.org/packages/MilesChou/twnicip)
+[![License](https://poser.pugx.org/MilesChou/twnicip/license)](https://packagist.org/packages/MilesChou/twnicip)
+
 
 檢查是否為台灣 IP 的小工具，台灣 IP 沒想像中多，所以直接把找到的資料轉成 PHP 原生變數型態的「[資料庫](/src/Database.php)」，再使用另一個 [Facade](/src/TwnicIp.php) 做搜尋。
 
 原則上 Database 是不能修改的，只能靠原 repo 更新。
+
+## Installation
+
+透過 Composer 即可安裝：
+
+```bash
+composer require mileschou/twnicip
+```
 
 ## TwnicIp
 
