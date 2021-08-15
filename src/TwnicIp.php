@@ -35,15 +35,33 @@ class TwnicIp
         return [$start, $end, long2ip($start), long2ip($end), $title];
     }
 
-    public static function findInRange(int $ip, iterable $range): bool
+    /**
+     * Find index in range data by IP long
+     */
+    public static function findInRange(int $ip, array $range): ?int
     {
-        foreach ($range as [$start, $end]) {
-            if ($ip >= $start && $ip <= $end) {
-                return true;
+        $found = null;
+
+        // Binary search
+        $low = 0;
+        $upper = count($range) - 1;
+
+        while ($low <= $upper) {
+            $mid = (int)(($low + $upper) / 2);
+
+            if ($ip >= $range[$mid][0] && $ip <= $range[$mid][1]) {
+                $found = $mid;
+                break;
+            }
+
+            if ($ip > $range[$mid][1]) {
+                $low = $mid + 1;
+            } elseif ($ip < $range[$mid][0]) {
+                $upper = $mid - 1;
             }
         }
 
-        return false;
+        return $found;
     }
 
     public function __construct(bool $withoutDatabase = false)
@@ -69,17 +87,17 @@ class TwnicIp
         $result = false;
 
         // Check default database from https://www.twnic.tw
-        if (!$this->withoutDatabase && self::findInRange($ip, Database::all())) {
+        if (!$this->withoutDatabase && (self::findInRange($ip, Database::all()) !== null)) {
             $result = true;
         }
 
         // Check list to include
-        if (self::findInRange($ip, $this->include)) {
+        if (null !== self::findInRange($ip, $this->include)) {
             $result = true;
         }
 
         // Check list to exclude
-        if (self::findInRange($ip, $this->exclude)) {
+        if (null !== self::findInRange($ip, $this->exclude)) {
             $result = false;
         }
 
