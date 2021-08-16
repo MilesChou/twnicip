@@ -24,7 +24,7 @@ class TwnicIp
      */
     public static function buildRangeByIp(string $start, string $end, string $title): array
     {
-        return [ip2long($start), ip2long($end), $start, $end, $title];
+        return [ip2long($start), ip2long($end), $title];
     }
 
     /**
@@ -32,7 +32,7 @@ class TwnicIp
      */
     public static function buildRangeByLong(int $start, int $end, string $title): array
     {
-        return [$start, $end, long2ip($start), long2ip($end), $title];
+        return [$start, $end, $title];
     }
 
     /**

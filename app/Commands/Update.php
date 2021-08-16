@@ -50,7 +50,7 @@ EOF;
     /**
      * @var string
      */
-    private $templateLine = "        ['%s', '%s', '%s', '%s', '%s'],";
+    private $templateLine = "        ['%s', '%s', '%s'],";
 
     protected function configure()
     {
@@ -100,7 +100,7 @@ EOF;
 
     private function getGenerator(string $file): iterable
     {
-        if (($handle = fopen($file, 'r')) === false) {
+        if (($handle = fopen($file, 'rb')) === false) {
             throw new RuntimeException('Cannot load file: ' . $file);
         }
 
@@ -120,9 +120,7 @@ EOF;
                 $this->templateLine,
                 $item[0],
                 $item[1],
-                $item[2],
-                $item[3],
-                $item[4]
+                $item[2]
             );
 
             $templateCode .= $code . PHP_EOL;
