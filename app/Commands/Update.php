@@ -50,7 +50,7 @@ EOF;
     /**
      * @var string
      */
-    private $templateLine = "        ['%s', '%s', '%s'],";
+    private $templateLine = "        ['%s', '%s'],";
 
     protected function configure()
     {
@@ -83,7 +83,7 @@ EOF;
             $startLong = (int)$item[0];
             $endLong = (int)$item[1];
 
-            $arr = TwnicIp::buildRangeByLong($startLong, $endLong, $item[5]);
+            $arr = TwnicIp::buildRangeByLong($startLong, $endLong);
             $data[] = $arr;
 
             if ($output->isVeryVerbose()) {
@@ -119,8 +119,7 @@ EOF;
             $code = sprintf(
                 $this->templateLine,
                 $item[0],
-                $item[1],
-                $item[2]
+                $item[1]
             );
 
             $templateCode .= $code . PHP_EOL;

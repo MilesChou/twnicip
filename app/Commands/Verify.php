@@ -40,12 +40,12 @@ class Verify extends Command
                 $start = microtime(true);
             }
 
-            if (!$target->isTaiwan($item[2])) {
-                $output->writeln("{$item[2]} false, check ERROR");
+            if (!$target->isTaiwanByLong($item[0])) {
+                $output->writeln("{$item[0]} false, check ERROR");
             }
 
-            if (!$target->isTaiwan($item[3])) {
-                $output->writeln("{$item[3]} false, check ERROR");
+            if (!$target->isTaiwanByLong($item[1])) {
+                $output->writeln("{$item[1]} false, check ERROR");
             }
 
             $endCheck = ($key + 1) % $input->getOption('interval') === 0;
