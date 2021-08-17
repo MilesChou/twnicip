@@ -93,7 +93,7 @@ EOF;
             }
         }
 
-        $this->generateCode($data);
+        $this->generateCode($this->refine($data));
 
         return 0;
     }
@@ -132,5 +132,39 @@ EOF;
         );
 
         file_put_contents(__DIR__ . '/../../src/Database.php', $newContent);
+    }
+
+    /**
+     * Combine array item
+     *
+     * Example:
+     * $last  = ['10000', '20000'],
+     * $value = ['20001', '30000'],
+     * Combine to a new array: ['10000', '30000']
+     *
+     * @param array $data
+     * @return array
+     */
+    private function refine(array $data): array
+    {
+        return array_reduce($data, static function (array $carry, array $value) {
+            if (empty($carry)) {
+                $carry[] = $value;
+
+                return $carry;
+            }
+
+            $last = end($carry);
+
+            if ($last[1] + 1 === (int)$value[0]) {
+                array_pop($carry);
+
+                $carry[] = [$last[0], $value[1]];
+            } else {
+                $carry[] = $value;
+            }
+
+            return $carry;
+        }, []);
     }
 }
