@@ -50,7 +50,7 @@ EOF;
     /**
      * @var string
      */
-    private $templateLine = "        ['%s', '%s', '%s', '%s', '%s'],";
+    private $templateLine = "        ['%s', '%s'],";
 
     protected function configure()
     {
@@ -83,7 +83,7 @@ EOF;
             $startLong = (int)$item[0];
             $endLong = (int)$item[1];
 
-            $arr = TwnicIp::buildRangeByLong($startLong, $endLong, $item[5]);
+            $arr = TwnicIp::buildRangeByLong($startLong, $endLong);
             $data[] = $arr;
 
             if ($output->isVeryVerbose()) {
@@ -93,14 +93,14 @@ EOF;
             }
         }
 
-        $this->generateCode($data);
+        $this->generateCode($this->refine($data));
 
         return 0;
     }
 
     private function getGenerator(string $file): iterable
     {
-        if (($handle = fopen($file, 'r')) === false) {
+        if (($handle = fopen($file, 'rb')) === false) {
             throw new RuntimeException('Cannot load file: ' . $file);
         }
 
@@ -119,10 +119,7 @@ EOF;
             $code = sprintf(
                 $this->templateLine,
                 $item[0],
-                $item[1],
-                $item[2],
-                $item[3],
-                $item[4]
+                $item[1]
             );
 
             $templateCode .= $code . PHP_EOL;
@@ -135,5 +132,39 @@ EOF;
         );
 
         file_put_contents(__DIR__ . '/../../src/Database.php', $newContent);
+    }
+
+    /**
+     * Combine array item
+     *
+     * Example:
+     * $last  = ['10000', '20000'],
+     * $value = ['20001', '30000'],
+     * Combine to a new array: ['10000', '30000']
+     *
+     * @param array $data
+     * @return array
+     */
+    private function refine(array $data): array
+    {
+        return array_reduce($data, static function (array $carry, array $value) {
+            if (empty($carry)) {
+                $carry[] = $value;
+
+                return $carry;
+            }
+
+            $last = end($carry);
+
+            if ($last[1] + 1 === (int)$value[0]) {
+                array_pop($carry);
+
+                $carry[] = [$last[0], $value[1]];
+            } else {
+                $carry[] = $value;
+            }
+
+            return $carry;
+        }, []);
     }
 }

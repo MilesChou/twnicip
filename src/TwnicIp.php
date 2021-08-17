@@ -22,17 +22,17 @@ class TwnicIp
     /**
      * Build ip range data by IP
      */
-    public static function buildRangeByIp(string $start, string $end, string $title): array
+    public static function buildRangeByIp(string $start, string $end): array
     {
-        return [ip2long($start), ip2long($end), $start, $end, $title];
+        return self::buildRangeByLong(ip2long($start), ip2long($end));
     }
 
     /**
      * Build ip range data by Long
      */
-    public static function buildRangeByLong(int $start, int $end, string $title): array
+    public static function buildRangeByLong(int $start, int $end): array
     {
-        return [$start, $end, long2ip($start), long2ip($end), $title];
+        return [$start, $end];
     }
 
     /**
@@ -107,49 +107,49 @@ class TwnicIp
     /**
      * Alias for includeRangeByIp()
      */
-    public function includeRange(string $start, string $end, string $title = ''): void
+    public function includeRange(string $start, string $end): void
     {
-        $this->includeRangeByIp($start, $end, $title);
+        $this->includeRangeByIp($start, $end);
     }
 
     /**
      * Use string to mark the Taiwan IP range
      */
-    public function includeRangeByIp(string $start, string $end, string $title = ''): void
+    public function includeRangeByIp(string $start, string $end): void
     {
-        $this->include[] = self::buildRangeByIp($start, $end, $title);
+        $this->include[] = self::buildRangeByIp($start, $end);
     }
 
     /**
      * Use long int to mark the Taiwan IP range
      */
-    public function includeRangeByLong(int $start, int $end, string $title = ''): void
+    public function includeRangeByLong(int $start, int $end): void
     {
-        $this->include[] = self::buildRangeByLong($start, $end, $title);
+        $this->include[] = self::buildRangeByLong($start, $end);
     }
 
     /**
      * Alias for excludeRangeByIp()
      */
-    public function excludeRange(string $start, string $end, string $title = ''): void
+    public function excludeRange(string $start, string $end): void
     {
-        $this->excludeRangeByIp($start, $end, $title);
+        $this->excludeRangeByIp($start, $end);
     }
 
     /**
      * Use string to mark the non-Taiwan IP range
      */
-    public function excludeRangeByIp(string $start, string $end, string $title = ''): void
+    public function excludeRangeByIp(string $start, string $end): void
     {
-        $this->exclude[] = self::buildRangeByIp($start, $end, $title);
+        $this->exclude[] = self::buildRangeByIp($start, $end);
     }
 
     /**
      * Use long int to mark the non-Taiwan IP range
      */
-    public function excludeRangeByLong(int $start, int $end, string $title = ''): void
+    public function excludeRangeByLong(int $start, int $end): void
     {
-        $this->exclude[] = self::buildRangeByLong($start, $end, $title);
+        $this->exclude[] = self::buildRangeByLong($start, $end);
     }
 
     /**
