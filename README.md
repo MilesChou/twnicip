@@ -7,10 +7,11 @@
 [![Total Downloads](https://poser.pugx.org/MilesChou/twnicip/d/total.svg)](https://packagist.org/packages/MilesChou/twnicip)
 [![License](https://poser.pugx.org/MilesChou/twnicip/license)](https://packagist.org/packages/MilesChou/twnicip)
 
+檢查是否為台灣 IP 的小工具。
 
-檢查是否為台灣 IP 的小工具，台灣 IP 沒想像中多，所以直接把找到的資料轉成 PHP 原生變數型態的「[資料庫](/src/Database.php)」，再使用另一個 [Facade](/src/TwnicIp.php) 做搜尋。
+台灣 IP 沒想像中多，這個工具是直接把找到的資料轉成 PHP 原生變數型態的「[資料庫](/src/Database.php)」，再使用另一個 [Facade](/src/TwnicIp.php) 做搜尋。
 
-原則上 Database 是不能修改的，只能靠原 repo 更新。
+原始 Database 是不能修改的，只能靠原 repo 更新，而 Facade 層則是可以動態標記 IP 是否為台灣 IP。
 
 ## Installation
 
@@ -20,7 +21,7 @@
 composer require mileschou/twnicip
 ```
 
-## TwnicIp
+## Usage
 
 這是主要驗證 IP 來源的 class，使用下面三個方法來確認是否是台灣 IP：
 
@@ -47,6 +48,16 @@ $twnicIp->excludeRange('127.0.0.1', '127.0.0.1');
 
 $twnicIp->isTaiwan('127.0.0.1'); // return false
 ```
+
+私有網域狹義來說，並不屬於台灣的 IP。而實務上，機器在台灣，某種程度也是算台灣的 IP 啦！
+
+如果想把私有網域當作台灣 IP 的話，可以額外呼叫下面這個方法：
+
+```php
+$twnicIp->includePrivateIp();
+```
+
+裡面其實只是呼叫 `includeRange()` 把私有 IP 的 range 加入。
 
 ## References
 
