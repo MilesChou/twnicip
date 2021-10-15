@@ -24,7 +24,7 @@ class Update extends Command
 namespace MilesChou\TwnicIp;
 
 /**
- * NOTE: THIS SOURCE CODE IS GENERATED VIA "App\Commands\Twnic" COMMAND
+ * NOTE: THIS SOURCE CODE IS GENERATED VIA "App\Commands\Update" COMMAND
  *
  * PLEASE DO NOT EDIT IT DIRECTLY.
  */
@@ -50,7 +50,7 @@ EOF;
     /**
      * @var string
      */
-    private $templateLine = "        ['%s', '%s'],";
+    private $templateLine = "        [%s, %s],";
 
     protected function configure()
     {
