@@ -24,7 +24,7 @@ class Check extends Command
         $ips = $input->getArgument('ips');
 
         foreach ($ips as $ip) {
-            if (TwnicIp::isTaiwan($ip)) {
+            if ((new TwnicIp())->isTaiwan($ip)) {
                 $output->writeln("$ip is Taiwan");
             } else {
                 $output->writeln("$ip is NOT Taiwan");

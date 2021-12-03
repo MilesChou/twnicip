@@ -42,11 +42,11 @@ class Verify extends Command
                 $start = microtime(true);
             }
 
-            if (!$target->isTaiwanByLong($item[0])) {
+            if (!$target->isTaiwan(long2ip($item[0]))) {
                 $output->writeln("{$item[0]} false, check ERROR");
             }
 
-            if (!$target->isTaiwanByLong($item[1])) {
+            if (!$target->isTaiwan(long2ip($item[1]))) {
                 $output->writeln("{$item[1]} false, check ERROR");
             }
 

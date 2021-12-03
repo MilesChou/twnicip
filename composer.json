@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "php": "^7.1 | ^8.0"
+        "php": "^7.1 | ^8.0",
+        "mileschou/ip": "^0.2.0"
     },
     "require-dev": {
         "phpbench/phpbench": "^0.16 | ^1.1",
