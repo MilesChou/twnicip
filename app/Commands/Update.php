@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Commands;
 
 use DateTime;
+use MilesChou\Ip\Collection\V4;
 use MilesChou\TwnicIp\TwnicIp;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -85,7 +86,7 @@ EOF;
             $startLong = (int)$item[0];
             $endLong = (int)$item[1];
 
-            $arr = TwnicIp::buildRangeByLong($startLong, $endLong);
+            $arr = [$startLong, $endLong];
             $data[] = $arr;
 
             if ($output->isVeryVerbose()) {
