@@ -1,10 +1,10 @@
 #!/usr/bin/make -f
 
-.PHONY: all clean clean-all check test analyse coverage
+.PHONY: all clean clean-all check test coverage update
 
 # ---------------------------------------------------------------------
 
-all: test analyse
+all: test
 
 clean:
 	git clean -Xfq build
@@ -24,3 +24,13 @@ bench:
 
 coverage: test
 	@if [ "`uname`" = "Darwin" ]; then open build/coverage/index.html; fi
+
+update: IP2LOCATION-LITE-DB1.CSV
+	php bin/app.php update
+	rm IP2LOCATION-LITE-DB1.CSV
+
+IP2LOCATION-LITE-DB1.CSV:
+	curl -sSO https://download.ip2location.com/lite/IP2LOCATION-LITE-DB1.CSV.ZIP
+	unzip -o IP2LOCATION-LITE-DB1.CSV.ZIP
+	rm -rf LICENSE-CC-BY-SA-4.0.TXT
+	rm -rf README_LITE.TXT

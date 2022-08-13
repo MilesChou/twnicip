@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @see https://www.twnic.tw/download/IP/main_f3.htm
+ * @see https://download.ip2location.com/lite/
  */
 class Update extends Command
 {
@@ -59,7 +59,7 @@ EOF;
     {
         $this->setName('update')
             ->setDescription('Update IP database')
-            ->addArgument('csv', InputArgument::OPTIONAL, 'CSV from IPLOCATION-LITE', 'IP2LOCATION-LITE-DB11.CSV');
+            ->addArgument('csv', InputArgument::OPTIONAL, 'CSV from IPLOCATION-LITE', 'IP2LOCATION-LITE-DB1.CSV');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
