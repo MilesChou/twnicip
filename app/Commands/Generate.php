@@ -3,12 +3,9 @@
 namespace App\Commands;
 
 use Faker\Factory;
-use Faker\Generator;
-use Faker\Provider\Internet;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Generate extends Command
