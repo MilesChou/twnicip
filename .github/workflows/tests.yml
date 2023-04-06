@@ -19,13 +19,16 @@ jobs:
         include:
           - php: 8.1
             stability: prefer-stable
-            experimental: true
+            experimental: false
+          - php: 8.2
+            stability: prefer-stable
+            experimental: false
 
     name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -35,7 +38,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 5
           max_attempts: 5
@@ -48,4 +51,4 @@ jobs:
         run: phpdbg -qrr vendor/bin/phpunit
 
       - name: Code coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
