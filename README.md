@@ -13,6 +13,11 @@
 
 原始 Database 是不能修改的，只能靠原 repo 更新，而 Facade 層則是可以動態標記 IP 是否為台灣 IP。
 
+## Version
+
+* 0.x 版支援 PHP 7.1 ~ 8.0
+* 1.x 版支援 PHP 8.0+ 
+
 ## Installation
 
 透過 Composer 即可安裝：
